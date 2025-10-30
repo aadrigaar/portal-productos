@@ -1416,7 +1416,24 @@ async function handleLogin(event) {
             body: JSON.stringify({ email, password })
         });
 
-        const data = await response.json();
+        console.log('📨 Respuesta login:', response.status);
+
+        let data;
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            console.error('❌ Error parseando JSON en login:', jsonError);
+            if (response.ok) {
+                // Si la respuesta fue exitosa pero no es JSON válido
+                showMessage(messageEl, '✅ Login exitoso, procesando...', 'success');
+                // Forzar redirección
+                setTimeout(() => showSection('homeSection'), 1000);
+                return;
+            } else {
+                showMessage(messageEl, '❌ Error en el servidor', 'error');
+                return;
+            }
+        }
 
         if (response.ok) {
             console.log('✅ Login exitoso:', data.user);
@@ -1431,11 +1448,11 @@ async function handleLogin(event) {
             connectToChat();
         } else {
             console.log('❌ Error en login:', data.error);
-            showMessage(messageEl, '❌ ' + data.error, 'error');
+            showMessage(messageEl, '❌ ' + (data.error || 'Error en el login'), 'error');
         }
     } catch (error) {
         console.error('❌ Error de conexión en login:', error);
-        showMessage(messageEl, '❌ Error de conexión', 'error');
+        showMessage(messageEl, '❌ Error de conexión con el servidor', 'error');
     }
 }
 
@@ -1472,16 +1489,32 @@ async function handleRegister(event) {
             body: JSON.stringify({ username, email, password })
         });
 
-        const data = await response.json();
+        console.log('📨 Respuesta del servidor:', response.status);
+
+        // Primero intentamos parsear la respuesta como JSON
+        let data;
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            console.error('❌ Error parseando JSON:', jsonError);
+            // Si no se puede parsear como JSON, mostramos un mensaje genérico
+            if (response.ok) {
+                showMessage(messageEl, '✅ Registro exitoso, pero hubo un problema con la respuesta', 'success');
+            } else {
+                showMessage(messageEl, '❌ Error en el servidor', 'error');
+            }
+            return;
+        }
 
         if (response.ok) {
             console.log('✅ Registro exitoso:', data.user);
-            showMessage(messageEl, '✅ ' + data.message, 'success');
+            showMessage(messageEl, '✅ ' + (data.message || 'Registro exitoso!'), 'success');
             document.getElementById('registerForm').reset();
             
             // Auto-login después del registro exitoso
             setTimeout(() => {
-                // Hacer login automático con las mismas credenciales
+                console.log('🔐 Auto-login después del registro...');
+                // Usar las credenciales del registro para hacer login automático
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPassword').value = password;
                 handleLogin(event);
@@ -1489,13 +1522,19 @@ async function handleRegister(event) {
             
         } else {
             console.log('❌ Error en registro:', data.error);
-            showMessage(messageEl, '❌ ' + data.error, 'error');
+            showMessage(messageEl, '❌ ' + (data.error || 'Error en el registro'), 'error');
         }
     } catch (error) {
-        console.error('❌ Error en registro:', error);
-        showMessage(messageEl, '❌ Error de conexión', 'error');
+        console.error('❌ Error de conexión en registro:', error);
+        // Mostrar mensaje más específico según el tipo de error
+        if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+            showMessage(messageEl, '❌ Error de conexión con el servidor', 'error');
+        } else {
+            showMessage(messageEl, '❌ Error inesperado: ' + error.message, 'error');
+        }
     }
 }
+
 function logout() {
     console.log('🚪 Cerrando sesión...');
     localStorage.removeItem('token');

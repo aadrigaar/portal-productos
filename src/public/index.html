@@ -1491,15 +1491,22 @@ async function handleRegister(event) {
 
         console.log('📨 Respuesta del servidor:', response.status);
 
-        // Primero intentamos parsear la respuesta como JSON
         let data;
         try {
             data = await response.json();
         } catch (jsonError) {
             console.error('❌ Error parseando JSON:', jsonError);
-            // Si no se puede parsear como JSON, mostramos un mensaje genérico
             if (response.ok) {
-                showMessage(messageEl, '✅ Registro exitoso, pero hubo un problema con la respuesta', 'success');
+                showMessage(messageEl, '✅ Registro exitoso! Redirigiendo...', 'success');
+                // Limpiar formulario de manera segura
+                const registerUsername = document.getElementById('registerUsername');
+                const registerEmail = document.getElementById('registerEmail');
+                const registerPassword = document.getElementById('registerPassword');
+                
+                if (registerUsername) registerUsername.value = '';
+                if (registerEmail) registerEmail.value = '';
+                if (registerPassword) registerPassword.value = '';
+                
             } else {
                 showMessage(messageEl, '❌ Error en el servidor', 'error');
             }
@@ -1509,15 +1516,33 @@ async function handleRegister(event) {
         if (response.ok) {
             console.log('✅ Registro exitoso:', data.user);
             showMessage(messageEl, '✅ ' + (data.message || 'Registro exitoso!'), 'success');
-            document.getElementById('registerForm').reset();
+            
+            // LIMPIAR FORMULARIO DE MANERA SEGURA - CORREGIDO
+            const registerUsername = document.getElementById('registerUsername');
+            const registerEmail = document.getElementById('registerEmail');
+            const registerPassword = document.getElementById('registerPassword');
+            
+            if (registerUsername) registerUsername.value = '';
+            if (registerEmail) registerEmail.value = '';
+            if (registerPassword) registerPassword.value = '';
             
             // Auto-login después del registro exitoso
             setTimeout(() => {
                 console.log('🔐 Auto-login después del registro...');
                 // Usar las credenciales del registro para hacer login automático
-                document.getElementById('loginEmail').value = email;
-                document.getElementById('loginPassword').value = password;
-                handleLogin(event);
+                const loginEmail = document.getElementById('loginEmail');
+                const loginPassword = document.getElementById('loginPassword');
+                
+                if (loginEmail) loginEmail.value = email;
+                if (loginPassword) loginPassword.value = password;
+                
+                // Solo intentar login si los elementos existen
+                if (loginEmail && loginPassword) {
+                    handleLogin(event);
+                } else {
+                    console.log('⚠️ Elementos de login no encontrados, redirigiendo...');
+                    showSection('loginSection');
+                }
             }, 1500);
             
         } else {
@@ -1526,11 +1551,10 @@ async function handleRegister(event) {
         }
     } catch (error) {
         console.error('❌ Error de conexión en registro:', error);
-        // Mostrar mensaje más específico según el tipo de error
         if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
             showMessage(messageEl, '❌ Error de conexión con el servidor', 'error');
         } else {
-            showMessage(messageEl, '❌ Error inesperado: ' + error.message, 'error');
+            showMessage(messageEl, '❌ Error: ' + error.message, 'error');
         }
     }
 }

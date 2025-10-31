@@ -31,22 +31,20 @@ Aplicación web completa con autenticación, gestión de productos y chat en tie
 ## Instalación Local
 
 ### 1. Clonar y instalar
-git clone <repositorio>
-cd portal-productos
-npm install
+- git clone <repositorio>
+- cd portal-productos
+- npm install
 
 ### Configurar Variables de Entorno
-MONGODB_URI=mongodb://localhost:27017/portal-productos
-JWT_SECRET=clave-secreta-local
+- MONGODB_URI=mongodb://localhost:27017/portal-productos
+- JWT_SECRET=clave-secreta-local
 
 ### Ejecutar la Aplicación
-npm run dev
+- npm run dev
 
 Abrir en el navegador: http://localhost:3000
 
 ---
-
-### 🧩 README 2 — Usuarios de Prueba
 
 # Usuarios de Prueba
 
@@ -86,28 +84,6 @@ Abrir en el navegador: http://localhost:3000
 - Filtrar por **categoría** y **precio**
 - Ordenar por **nombre**, **precio** o **stock**
 
-# Decisiones de Desarrollo
-
-## 1. Arquitectura SPA
-- Aplicación de una sola página (Single Page Application)
-- Navegación fluida sin recargas completas
-
-## 2. Seguridad
-- Autenticación con **JWT** para rutas HTTP y WebSockets
-- Middleware para proteger rutas privadas
-- Contraseñas **hasheadas con bcrypt**
-
-# Base de Datos y Tiempo Real
-
-## 3. Base de Datos
-- MongoDB como sistema de persistencia
-- Modelos con validaciones y relaciones entre usuarios, productos y mensajes
-
-## 4. Tiempo Real
-- Comunicación con **Socket.IO** autenticado con JWT
-- Mensajes persistentes
-- Estado de usuario escribiendo en tiempo real
-
 # Despliegue en Producción
 
 ## Hosting
@@ -119,6 +95,73 @@ Abrir en el navegador: http://localhost:3000
 ## URL de Producción
 [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
 
+
+# 🎯 Decisiones de Desarrollo
+
+## 1. Arquitectura SPA (Single Page Application)
+**Decisión**: Implementar frontend como SPA en un solo archivo HTML con JavaScript vanilla.
+**Razón**:
+
+- Mejor experiencia de usuario sin recargas de página
+
+- Mayor velocidad de desarrollo
+
+- Fácil despliegue y mantenimiento
+
+- Cumple con requisitos de aplicación moderna
+
+## 2. Autenticación JWT en HTTP y WebSockets
+**Decisión**: Implementar middleware JWT tanto para rutas Express como para conexiones Socket.IO.
+**Razón**:
+
+- Seguridad consistente en todas las capas de comunicación
+
+- Prevención de acceso no autorizado al chat en tiempo real
+
+- Validación de identidad uniforme en toda la aplicación
+
+## 3. Detección Automática de Rol Admin
+**Decisión**: Asignar rol admin automáticamente basado en email específico.
+**Razón**:
+
+- Simplificación del proceso de testing y demostración
+
+- No requiere interfaz compleja de administración de usuarios
+
+- Fácil verificación durante la evaluación
+
+## 4. Persistencia Completa en MongoDB
+**Decisión**: Guardar todos los datos (usuarios, productos, mensajes) en MongoDB.
+**Razón**:
+
+- Cumplimiento de requisito de persistencia
+
+- Historial disponible permanentemente
+
+- Escalabilidad para crecimiento futuro
+
+## 5. Separación Clara de Responsabilidades
+**Decisión**: Estructurar el proyecto en carpetas específicas (routes, models, middleware).
+**Razón**:
+
+- Código más mantenible y escalable
+
+- Fácil comprensión de la arquitectura
+
+- Mejores prácticas de desarrollo Node.js
+
+## 6. Despliegue en Infraestructura Cloud
+**Decisión**: Utilizar Render.com para hosting y MongoDB Atlas para base de datos.
+**Razón**:
+
+- Disponibilidad 24/7 de la aplicación
+
+- Escalabilidad automática
+
+- Backups y seguridad gestionados
+
+- Deployment continuo con Git
+
 # Información del Proyecto
 
 **Autor:** Adrián García Arranz  
@@ -128,6 +171,7 @@ Abrir en el navegador: http://localhost:3000
 ## Enlaces
 - **Demo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
 - **Repositorio:** [https://github.com/aadrigaar/portal-productos](https://github.com/aadrigaar/portal-productos)
+
 
 
 

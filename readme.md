@@ -1,25 +1,28 @@
 # Portal de Productos - Práctica 1
 
-## Descripción
-Aplicación web completa con autenticación, gestión de productos y chat en tiempo real.
+## 📋 Descripción del Proyecto
+Aplicación web completa desarrollada como práctica integradora que combina autenticación JWT, gestión de productos con CRUD completo y chat en tiempo real. Implementa todos los conceptos aprendidos en las sesiones 10 a 13.
 
-**Demo:** https://portal-productos.onrender.com
+**🌐 Demo en Vivo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
+
+---
 
 ## Características
 
 ### Funcionalidades Principales
-- ✅ **Registro y login** con JWT
-- ✅ **Roles de usuario**: User (ver productos) y Admin (CRUD completo)
-- ✅ **CRUD de productos**: Crear, editar, eliminar (solo admin)
-- ✅ **Chat en tiempo real** con Socket.IO
-- ✅ **Búsqueda y filtros** de productos
-- ✅ **Base de datos MongoDB** con persistencia
+- **🔐 Autenticación JWT** - Sistema seguro de registro y login
+- **👥 Roles de Usuario** - User (solo lectura) y Admin (CRUD completo)
+- **📦 CRUD de Productos** - Crear, leer, actualizar y eliminar productos
+- **💬 Chat en Tiempo Real** - Comunicación instantánea con Socket.IO
+- **🗄️ Persistencia MongoDB** - Todos los datos guardados en base de datos
+- **🛡️ Rutas Protegidas** - Acceso restringido con middleware JWT
 
 ### Funcionalidades Extra
-- 👥 **Usuarios conectados** en el chat
-- 💾 **Historial persistente** de mensajes
-- 🔍 **Búsqueda avanzada** con múltiples filtros
-- ☁️ **Despliegue en la nube** (Render + MongoDB Atlas)
+- **👥 Usuarios Conectados** - Ver usuarios online en tiempo real
+- **💾 Historial Persistente** - Mensajes del chat guardados en MongoDB
+- **🔍 Búsqueda Avanzada** - Filtros por categoría, precio y múltiples ordenamientos
+- **✍️ Indicador "Escribiendo..."** - Feedback visual en el chat
+- **☁️ Despliegue en la Nube** - Aplicación desplegada en Render + MongoDB Atlas
 
 ## Tecnologías
 - **Frontend**: HTML5, CSS3, JavaScript
@@ -28,9 +31,40 @@ Aplicación web completa con autenticación, gestión de productos y chat en tie
 - **Autenticación**: JWT, bcryptjs
 - **Tiempo real**: Socket.IO
 
+---
+
+## 📁 Estructura del Proyecto
+
+```bash
+portal-productos/
+├── src/
+│   ├── middleware/
+│   │   └── authenticateJWT.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Product.js
+│   │   └── ChatMessage.js
+│   ├── public/
+│   │   └── index.html
+│   │   └── client.js
+│   │   └── styles.css
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── productRoutes.js
+│   │   └── chatRoutes.js
+│   ├── server.js
+│   └── config.js
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── render.yaml
+└── README.md
+```
+
 ## Instalación Local
 
-### 1. Clonar y instalar
+### 1. Clonar e instalar
 - git clone <repositorio>
 - cd portal-productos
 - npm install
@@ -94,7 +128,6 @@ Abrir en el navegador: http://localhost:3000
 
 ## URL de Producción
 [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
-
 
 # 🎯 Decisiones de Desarrollo
 
@@ -171,6 +204,7 @@ Abrir en el navegador: http://localhost:3000
 ## Enlaces
 - **Demo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
 - **Repositorio:** [https://github.com/aadrigaar/portal-productos](https://github.com/aadrigaar/portal-productos)
+
 
 
 

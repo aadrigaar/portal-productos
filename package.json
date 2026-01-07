@@ -9,17 +9,27 @@
     "build": "echo 'No build step required for Node.js'",
     "test": "echo 'No tests yet'"
   },
-  "keywords": ["nodejs", "express", "mongodb", "jwt", "socketio", "chat"],
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "jwt",
+    "socketio",
+    "chat"
+  ],
   "author": "Adrian",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^8.0.3",
-    "jsonwebtoken": "^9.0.2",
+    "@apollo/server": "^5.2.0",
     "bcryptjs": "^2.4.3",
-    "socket.io": "^4.7.4",
+    "body-parser": "^2.2.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "graphql": "^16.12.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "socket.io": "^4.7.4"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

@@ -1,7 +1,7 @@
-# Portal de Productos - Práctica 1
+# Portal E-Commerce Full Stack - Práctica 1 y 2
 
 ## 📋 Descripción del Proyecto
-Aplicación web completa desarrollada como práctica integradora que combina autenticación JWT, gestión de productos con CRUD completo y chat en tiempo real. Implementa todos los conceptos aprendidos en las sesiones 10 a 13.
+Aplicación web completa desarrollada como práctica integradora final. Este proyecto evoluciona el **Portal de Productos** (Práctica 1) hacia un **E-commerce funcional** (Práctica 2), implementando una arquitectura híbrida que combina **REST API** para administración de usuarios, **GraphQL** para la gestión transaccional de pedidos y el catálogo, y **WebSockets** para comunicación en tiempo real.
 
 **🌐 Demo en Vivo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
 
@@ -9,27 +9,30 @@ Aplicación web completa desarrollada como práctica integradora que combina aut
 
 ## Características
 
-### Funcionalidades Principales
-- **🔐 Autenticación JWT** - Sistema seguro de registro y login
-- **👥 Roles de Usuario** - User (solo lectura) y Admin (CRUD completo)
-- **📦 CRUD de Productos** - Crear, leer, actualizar y eliminar productos
-- **💬 Chat en Tiempo Real** - Comunicación instantánea con Socket.IO
-- **🗄️ Persistencia MongoDB** - Todos los datos guardados en base de datos
-- **🛡️ Rutas Protegidas** - Acceso restringido con middleware JWT
+### 🚀 Nuevas Funcionalidades (Práctica 2: E-commerce & GraphQL)
+- **🛒 Carrito de Compras Intuitivo**: Gestión de productos en cliente, persistencia local y cálculo de totales en tiempo real.
+- **⚡ API GraphQL**: Implementación de Apollo Server para consultas eficientes de productos y gestión de pedidos (Queries y Mutations).
+- **📦 Gestión de Pedidos (Admin)**: Panel para visualizar ventas, filtrar por estado (Pendiente/Completado) y ver el detalle de productos vendidos.
+- **👥 Gestión de Usuarios (Admin)**: Panel para listar usuarios, modificar roles (ascender/degradar) y eliminar cuentas.
+- **📜 Historial de Compras**: Los usuarios pueden ver sus pedidos anteriores con fecha, estado y desglose de items.
+- **🔄 Checkout Simulado**: Conversión del carrito en una orden persistente en MongoDB mediante GraphQL.
 
-### Funcionalidades Extra
-- **👥 Usuarios Conectados** - Ver usuarios online en tiempo real
-- **💾 Historial Persistente** - Mensajes del chat guardados en MongoDB
-- **🔍 Búsqueda Avanzada** - Filtros por categoría, precio y múltiples ordenamientos
-- **✍️ Indicador "Escribiendo..."** - Feedback visual en el chat
-- **☁️ Despliegue en la Nube** - Aplicación desplegada en Render + MongoDB Atlas
+### ✨ Funcionalidades Base (Práctica 1: Portal & Chat)
+- **🔐 Autenticación JWT**: Sistema seguro de registro y login (Tokenizado).
+- **💬 Chat en Tiempo Real**: Comunicación instantánea vía Socket.IO con historial persistente en base de datos.
+- **📦 CRUD de Productos**: Crear, leer, actualizar y eliminar productos (Solo Admin).
+- **👥 Usuarios Conectados**: Visualización en tiempo real de quién está online.
+- **🔍 Búsqueda Avanzada**: Filtros dinámicos por categoría, precio y ordenación.
+
+---
 
 ## Tecnologías
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla SPA - Single Page Application)
 - **Backend**: Node.js, Express
+- **API Híbrida**: REST (Express Router) + GraphQL (Apollo Server)
 - **Base de datos**: MongoDB, Mongoose
-- **Autenticación**: JWT, bcryptjs
 - **Tiempo real**: Socket.IO
+- **Seguridad**: JWT, bcryptjs
 
 ---
 
@@ -38,168 +41,109 @@ Aplicación web completa desarrollada como práctica integradora que combina aut
 ```bash
 portal-productos/
 ├── src/
-│   ├── middleware/
-│   │   └── authenticateJWT.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Product.js
-│   │   └── ChatMessage.js
-│   ├── public/
-│   │   └── index.html
-│   │   └── client.js
-│   │   └── styles.css
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── productRoutes.js
-│   │   └── chatRoutes.js
-│   ├── server.js
-│   └── config.js
+│   ├── graphql/           # [P2] Esquemas (TypeDefs) y Resolvers
+│   ├── middleware/        # Autenticación JWT y validación de Roles
+│   ├── models/            # Modelos Mongoose (User, Product, Order, Chat)
+│   ├── public/            # Cliente SPA (HTML, CSS, JS)
+│   ├── routes/            # Endpoints REST (Auth, Users, Products)
+│   ├── server.js          # Servidor Principal (Express + Apollo + Socket.io)
+│   └── config.js          # Configuración de variables
 ├── .env
-├── .gitignore
-├── package-lock.json
 ├── package.json
-├── render.yaml
 └── README.md
 ```
 
 ## Instalación Local
 
 ### 1. Clonar e instalar
-- git clone <repositorio>
-- cd portal-productos
-- npm install
+```bash
+git clone <tu-repositorio>
+cd portal-productos
+npm install
+```
 
-### Configurar Variables de Entorno
-- MONGODB_URI=mongodb://localhost:27017/portal-productos
-- JWT_SECRET=clave-secreta-local
+### 2. Configurar Variables de Entorno
+Crea un archivo `.env` en la raíz con el siguiente contenido:
+```env
+MONGODB_URI=mongodb://localhost:27017/portal-productos
+JWT_SECRET=clave-secreta-local
+PORT=3000
+```
 
-### Ejecutar la Aplicación
-- npm run dev
+# Modo desarrollo (con nodemon)
+npm run dev
 
-Abrir en el navegador: http://localhost:3000
+# Modo producción
+node src/server.js
+
+Web: http://localhost:3000
+
+Explorador GraphQL (Sandbox): http://localhost:3000/graphql
 
 ---
 
 # Usuarios de Prueba
 
-## Administrador
-- **Email:** admin123@gmail.com 
-- **Contraseña:** admin123  
-- **Permisos:** CRUD completo de productos
+### Administrador
+- **Usuario:** `admin`
+- **Email:** `admin@admin.com`
+- **Contraseña:** `123456`
+- **Permisos:** CRUD Productos, Gestión de Usuarios, Gestión de Pedidos (Cambiar estados).
 
-## Usuario Normal
-- **Email:** cualquier email  
-- **Contraseña:** cualquier contraseña  
-- **Permisos:** Solo ver productos y usar el chat
+### Usuario Normal
+- **Usuario:** `adrian`
+- **Email:** `adrian@gmail.com`
+- **Contraseña:** `adrian`
+- **Permisos:** Comprar, Chat, Ver Historial personal.
+
+---
 
 # Cómo Probar la Aplicación
 
-## 1. Autenticación
-- Registrarse con cualquier email → Rol **user**
-- Registrarse con **admin123@gmail.com** → Rol **admin** automático
+## 1. Flujo de Compra (Práctica 2)
+1. Inicia sesión como **Usuario**.
+2. Añade productos al **Carrito**.
+3. Ve a la pestaña Carrito y pulsa **"Realizar Pedido"**.
+4. Verifica que el carrito se vacía y el pedido aparece abajo en **"Mis Pedidos Anteriores"**.
 
-## 2. Gestión de Productos
-- Como **admin:** verás los botones *Agregar*, *Editar* y *Eliminar*
-- Como **user:** solo podrás visualizar productos (sin botones CRUD)
+## 2. Gestión de Admin (Práctica 2)
+1. Inicia sesión como **Admin**.
+2. Pestaña **"Pedidos"**: Filtra por estado y cambia un pedido de "Pendiente" a "Completado".
+3. Pestaña **"Usuarios"**: Prueba a cambiar el rol de un usuario o eliminarlo.
 
-# Chat en Tiempo Real
+## 3. Chat y Productos (Práctica 1)
+1. Abre dos navegadores diferentes.
+2. Prueba el **Chat en Tiempo Real** (verás el indicador de "escribiendo").
+3. Como Admin, prueba a **Crear o Borrar** un producto del catálogo.
 
-1. Inicia sesión para acceder al chat.  
-2. Abre varias pestañas del navegador para comprobar la comunicación en tiempo real.  
-3. Verás los usuarios conectados en la esquina superior derecha.  
-4. Incluye:
-   - Historial persistente de mensajes.
-   - Indicador de "usuario escribiendo".
-
-# Búsqueda de Productos
-
-## Funcionalidades
-- Buscar por **nombre** o **descripción**
-- Filtrar por **categoría** y **precio**
-- Ordenar por **nombre**, **precio** o **stock**
-
-# Despliegue en Producción
-
-## Hosting
-- **Render.com** (despliegue automático con `git push`)
-
-## Base de Datos
-- **MongoDB Atlas y MongoDB Compass**
-
-## URL de Producción
-[https://portal-productos.onrender.com](https://portal-productos.onrender.com)
+---
 
 # 🎯 Decisiones de Desarrollo
 
-## 1. Arquitectura SPA (Single Page Application)
-**Decisión**: Implementar frontend como SPA en un solo archivo HTML con JavaScript vanilla.
-**Razón**:
+## 1. Arquitectura Híbrida (REST + GraphQL)
+**Decisión**: Se mantiene REST para la autenticación y gestión simple de usuarios, pero se integra GraphQL para el núcleo del E-commerce.
+**Razón**: GraphQL es ideal para el checkout y el historial de pedidos, ya que permite recuperar datos anidados (Pedido -> Usuario -> Detalles del Producto) en una sola petición ("Query"), optimizando el rendimiento frente a múltiples llamadas REST.
 
-- Mejor experiencia de usuario sin recargas de página
+## 2. Persistencia de "Snapshot" en Pedidos
+**Decisión**: El modelo `Order` almacena una copia de los datos del producto (precio y nombre) en el momento de la compra.
+**Razón**: Garantiza la integridad histórica de los datos. Si un producto cambia de precio o nombre en el futuro, los pedidos antiguos deben reflejar lo que el usuario pagó realmente en su momento.
 
-- Mayor velocidad de desarrollo
+## 3. Seguridad Unificada
+**Decisión**: El middleware de autenticación JWT se reutiliza en las tres capas: Rutas REST, conexión de WebSockets y contexto de GraphQL.
+**Razón**: Asegura que no existan brechas de seguridad; un usuario debe estar autenticado independientemente del protocolo que use para comunicarse con el servidor.
 
-- Fácil despliegue y mantenimiento
+## 4. Frontend SPA (Single Page Application)
+**Decisión**: Uso de Vanilla JS para manipular el DOM y mostrar/ocultar secciones sin recargar la página.
+**Razón**: Ofrece una experiencia de usuario fluida y moderna, similar a una aplicación de escritorio, cumpliendo con los requisitos de interactividad del chat y el carrito.
 
-- Cumple con requisitos de aplicación moderna
-
-## 2. Autenticación JWT en HTTP y WebSockets
-**Decisión**: Implementar middleware JWT tanto para rutas Express como para conexiones Socket.IO.
-**Razón**:
-
-- Seguridad consistente en todas las capas de comunicación
-
-- Prevención de acceso no autorizado al chat en tiempo real
-
-- Validación de identidad uniforme en toda la aplicación
-
-## 3. Detección Automática de Rol Admin
-**Decisión**: Asignar rol admin automáticamente basado en email específico.
-**Razón**:
-
-- Simplificación del proceso de testing y demostración
-
-- No requiere interfaz compleja de administración de usuarios
-
-- Fácil verificación durante la evaluación
-
-## 4. Persistencia Completa en MongoDB
-**Decisión**: Guardar todos los datos (usuarios, productos, mensajes) en MongoDB.
-**Razón**:
-
-- Cumplimiento de requisito de persistencia
-
-- Historial disponible permanentemente
-
-- Escalabilidad para crecimiento futuro
-
-## 5. Separación Clara de Responsabilidades
-**Decisión**: Estructurar el proyecto en carpetas específicas (routes, models, middleware).
-**Razón**:
-
-- Código más mantenible y escalable
-
-- Fácil comprensión de la arquitectura
-
-- Mejores prácticas de desarrollo Node.js
-
-## 6. Despliegue en Infraestructura Cloud
-**Decisión**: Utilizar Render.com para hosting y MongoDB Atlas para base de datos.
-**Razón**:
-
-- Disponibilidad 24/7 de la aplicación
-
-- Escalabilidad automática
-
-- Backups y seguridad gestionados
-
-- Deployment continuo con Git
+---
 
 # Información del Proyecto
 
-**Autor:** Adrián García Arranz  
-**Universidad Europea del Atlántico**  
-**Fecha:** Noviembre 2025
+**Autor:** Adrián García Arranz
+**Universidad Europea del Atlántico**
+**Asignatura:** Programación Web I
+**Fecha:** Enero 2026
 
 ## Enlaces
 - **Demo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)

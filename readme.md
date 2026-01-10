@@ -70,15 +70,21 @@ JWT_SECRET=clave-secreta-local
 PORT=3000
 ```
 
-# Modo desarrollo (con nodemon)
+### 3. Ejecutar la Aplicación
+
+Modo desarrollo (con nodemon)
+```
 npm run dev
+```
 
-# Modo producción
+Modo producción
+```
 node src/server.js
+```
 
-Web: http://localhost:3000
+- Web: http://localhost:3000
 
-Explorador GraphQL (Sandbox): http://localhost:3000/graphql
+- Explorador GraphQL (Sandbox): http://localhost:3000/graphql
 
 ---
 
@@ -148,6 +154,7 @@ Explorador GraphQL (Sandbox): http://localhost:3000/graphql
 ## Enlaces
 - **Demo:** [https://portal-productos.onrender.com](https://portal-productos.onrender.com)
 - **Repositorio:** [https://github.com/aadrigaar/portal-productos](https://github.com/aadrigaar/portal-productos)
+
 
 
 

@@ -11,6 +11,9 @@ require('dotenv').config();
 // --- DEPENDENCIAS GRAPHQL (NUEVO) ---
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+// Importamos el plugin para el Sandbox
+const { ApolloServerPluginLandingPageLocalDefault } = require('@apollo/server/plugin/landingPage/default');
+
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const jwt = require('jsonwebtoken'); // Para contexto GraphQL
@@ -58,10 +61,14 @@ const { authenticateJWT, authenticateSocket, requireAdmin } = require('./middlew
 // ====================================================================
 async function startServer() {
 
-  // 1. INICIAR APOLLO SERVER
+  // 1. INICIAR APOLLO SERVER (MODIFICADO PARA PRODUCCIÓN)
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
+    introspection: true, // PERMITE VER EL ESQUEMA EN PRODUCCIÓN
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }) // ACTIVA EL SANDBOX
+    ]
   });
   await apolloServer.start();
 
